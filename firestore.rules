@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidSubdomainName(name) {
+      return name.matches('^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$') &&
+        !(name in [
+          'www', 'app', 'api', 'admin', 'dashboard', 'auth', 'login', 'signup',
+          'manage', 'posts', 'lessons', 'templates', 'audience', 'analytics',
+          'showcase', 'status', 'whitepaper', 'security', 'changelog', 'mail',
+          'smtp', 'ftp', 'cdn', 'assets', 'static', 'root', 'system', 'support',
+          'help', 'billing', 'vercel', 'firebase', 'myfa', 'myfapost'
+        ]);
+    }
+
+    match /subdomains/{subdomain} {
+      allow read: if true;
+      allow create: if isSignedIn()
+        && isValidSubdomainName(subdomain)
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.subdomain == subdomain;
+      allow update, delete: if isSignedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid;
+    }
+
+    match /posts/{postId} {
+      allow read: if true;
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.htmlContent.size() <= 921600
+        && exists(/databases/$(database)/documents/subdomains/$(request.resource.data.subdomain))
+        && get(/databases/$(database)/documents/subdomains/$(request.resource.data.subdomain)).data.userId == request.auth.uid;
+      allow update: if isSignedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.htmlContent.size() <= 921600;
+      allow delete: if isSignedIn()
+        && resource.data.userId == request.auth.uid;
+    }
+
+    match /subscribers/{subscriberId} {
+      allow read: if isSignedIn() && resource.data.ownerUserId == request.auth.uid;
+      allow create: if request.resource.data.email.matches('^[^@]+@[^@]+\\.[^@]+$');
+      allow update, delete: if isSignedIn() && resource.data.ownerUserId == request.auth.uid;
+    }
+  }
+}

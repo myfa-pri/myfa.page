@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg-obsidian: #07090f;
+  --bg-slate-card: #0d111c;
+  --bg-slate-elevated: #131929;
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --accent-indigo: #6366f1;
+  --accent-violet: #8b5cf6;
+  --status-emerald: #10b981;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: #07090f;
+  color: #f8fafc;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  scroll-behavior: smooth;
+  min-height: 100vh;
+}
+
+.font-mono-code {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.obsidian-radial-bg {
+  background-color: #07090f;
+  background-image:
+    radial-gradient(circle at 18% 0%, rgba(99, 102, 241, 0.16), transparent 42%),
+    radial-gradient(circle at 82% 8%, rgba(139, 92, 246, 0.14), transparent 44%),
+    radial-gradient(circle at 50% 95%, rgba(16, 185, 129, 0.07), transparent 50%);
+}
+
+.glass-card {
+  background: rgba(13, 17, 28, 0.88);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card-hover {
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card-hover:hover {
+  border-color: rgba(99, 102, 241, 0.45);
+  box-shadow: 0 12px 35px -10px rgba(99, 102, 241, 0.25);
+}
+
+.btn-electric {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: #ffffff;
+  transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.btn-electric:hover {
+  opacity: 0.96;
+  transform: translateY(-1px);
+  box-shadow: 0 0 28px rgba(99, 102, 241, 0.45);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #07090f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4f46e5;
+}
