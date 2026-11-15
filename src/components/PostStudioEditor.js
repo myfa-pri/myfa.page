@@ -179,8 +179,7 @@ const snapshot = await getDoc(doc(db, "posts", docId));
   );
 
   const insertMarkdownSyntax = (prefix, suffix = "") => {
-    setMarkdownBody((prev) => `${prev}
-${prefix}Section Text${suffix}`);
+    setMarkdownBody((prev) => `${prev}\n${prefix}Section Text${suffix}`);
   };
 
   const handleFileUpload = (e) => {
@@ -482,9 +481,7 @@ ${prefix}Section Text${suffix}`);
                     </button>
                     <button
                       type="button"
-                      onClick={() => insertMarkdownSyntax("```javascript
-", "
-```")}
+                      onClick={() => insertMarkdownSyntax("```javascript\n", "\n```")}
                       className="p-2 rounded-lg hover:bg-white/10 text-slate-300"
                       title="Code Block"
                     >
@@ -492,9 +489,7 @@ ${prefix}Section Text${suffix}`);
                     </button>
                     <button
                       type="button"
-                      onClick={() => insertMarkdownSyntax("
----
-")}
+                      onClick={() => insertMarkdownSyntax("\n---\n")}
                       className="p-2 rounded-lg hover:bg-white/10 text-slate-300"
                       title="Divider"
                     >
